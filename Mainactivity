@@ -1,0 +1,80 @@
+package fr.gsb;
+import fr.gsb.rv.models.ModeleGsb ;
+
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import fr.gsb.rv.entites.Visiteur;
+import fr.gsb.rv.technique.Session;
+
+import android.util.Log;
+
+
+public class MainActivity extends AppCompatActivity {
+
+
+
+    TextView tvMsg ;
+    EditText etMatricule ;
+    EditText etMdp ;
+
+    ModeleGsb modele ;
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        tvMsg = (TextView) findViewById(R.id.tvMsg) ;
+        tvMsg.setText("");
+        etMatricule = (EditText) findViewById(R.id.etMatricule) ;
+        etMatricule.setText("");
+        etMdp = (EditText) findViewById(R.id.etMdp) ;
+        etMatricule.setText("");
+
+
+
+    }
+
+    //Visiteur ali = new Visiteur("Ali", "azerty",  "Darboe", "Alid");
+
+    private static  String TAG = "GSB_MAIN_ACTIVITY";
+    public void seConnecter(View view) {
+        String matricule = etMatricule.getText().toString();
+        String mdp = etMdp.getText().toString();
+
+        Visiteur ali = ModeleGsb.getInstance().seConnecter("a131","azerty") ;
+
+
+
+        if( ali != null ){
+       // if (matricule == ali.getMatricule() && mdp == ali.getMdp()) {
+            Session.ouvrir( ali ) ;
+            tvMsg.setText("Ok chef");
+            Log.i(TAG, "Connexion ok ( " + ali.getPrenom() +" "+ ali.getNom() + ". )") ;
+        } else if ( ali == null)
+        {
+            tvMsg.setText("Nok");
+            //Log.i(TAG, " Nok (" + ali.getPrenom()  +" "+ ali.getNom() + ".") ;
+            Log.i(TAG, " Nok") ;
+
+        }
+    }
+
+
+    public void annuler(View view){
+        etMatricule.setText("");
+        etMdp.setText("");
+
+    }
+
+
+
+}
